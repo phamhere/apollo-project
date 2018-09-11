@@ -5,6 +5,7 @@
 <script>
 export default {
   name: 'Trades',
+  props: ['ccxt'],
   data () {
     return {
       msg: 'Trades'
