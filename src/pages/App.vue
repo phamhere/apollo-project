@@ -14,10 +14,10 @@
       <h1>Pair</h1>
       <select name="" id="" v-model="selectedPair">
         <option value="">Please select one</option>
-        <option value=""></option>
+        <option :value="key" v-for="(value,key,i) in markets" :key="i">{{ key }}</option>
       </select>
       <p>Selected: {{ selectedPair }}</p>
-      <p>Loading: {{ loadingMarkets() }}</p>
+      <span>{{ loadingMarkets() }}</span>
     </div>
 
     <div class="content">
@@ -38,24 +38,25 @@ export default {
     return {
       ccxt: ccxt,
       selectedExchange: '',
-      selectedPair: ''
+      selectedPair: '',
+      markets: ''
     }
   },
   methods: {
     loadingMarkets () {
       (async () => {
         // eslint-disable-next-line
-        let kraken = new ccxt.kraken()
-        let markets = await kraken.load_markets()
+        let exchange = new ccxt[this.selectedExchange]()
+        let markets = await exchange.load_markets()
+        this.markets = markets
         console.log(markets)
-        return markets
       })()
     }
   },
   components: {
-    'exchange': Exchange,
-    'pair': Pair,
-    'trades': Trades
+    exchange: Exchange,
+    pair: Pair,
+    trades: Trades
   }
 }
 </script>
