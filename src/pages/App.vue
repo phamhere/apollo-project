@@ -20,8 +20,20 @@
       <span>{{ loadingMarkets() }}</span>
     </div>
 
-    <div class="content">
+    <div class="content trades">
       <h1>Trades</h1>
+      <table>
+        <tr>
+          <td>Size</td>
+          <td>Price ( USD )</td>
+          <td>Time</td>
+        </tr>
+        <tr v-for="(trade,i) in tradeData" :key="i">
+          <td>{{ trade.amount }}</td>
+          <td>{{ trade.price }}</td>
+          <td>{{ trade.datetime }}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </template>
@@ -39,7 +51,8 @@ export default {
       ccxt: ccxt,
       selectedExchange: '',
       selectedPair: '',
-      markets: ''
+      markets: '',
+      tradeData: []
     }
   },
   methods: {
@@ -49,7 +62,7 @@ export default {
         let exchange = new ccxt[this.selectedExchange]()
         let markets = await exchange.load_markets()
         this.markets = markets
-        console.log(markets)
+        this.tradeData = await exchange.fetchTrades(this.selectedPair)
       })()
     }
   },
@@ -72,5 +85,9 @@ export default {
   width: 300px;
   height: 450px;
   border: 1px solid black;
+}
+.trades table {
+  margin: 0 auto;
+  font-size: 10px;
 }
 </style>
