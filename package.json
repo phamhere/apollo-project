@@ -11,7 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "ccxt": "^1.17.231",
+    "ccxt": "^1.95.43",
     "cors-anywhere": "^0.4.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
